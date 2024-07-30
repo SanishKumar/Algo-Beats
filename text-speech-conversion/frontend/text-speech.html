@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming Text-to-Speech</title>
+</head>
+
+<body>
+    <h1>Streaming Text-to-Speech Example</h1>
+    <textarea id="text-to-speak" rows="4" cols="50"></textarea><br>
+    <button id="stopbtn">Stop</button>
+    <button id="pausebtn">Pause</button>
+    <button id="resumebtn">Resume</button>
+
+
+    <script type="module">
+        import { TextToSpeechClient } from './service/converter_service.js';
+
+        // Debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // Create an instance of TextToSpeechClient
+        const client = new TextToSpeechClient();
+
+        // Function to handle text-to-speech
+        function streamText() {
+            const text = document.getElementById('text-to-speak').value;
+            console.log(text);
+            const request = {
+                input: {
+                    text: text || ""
+                },
+                voice: {
+                    languageCode: "en-US",
+                    ssmlGender: "female"
+                },
+                audioConfig: {
+                    audioEncoding: "MP3"
+                }
+            };
+
+            client.synthesizeSpeech(request).then(() => {
+                console.log('Speech synthesis completed.');
+            }).catch((error) => {
+                console.error('Speech synthesis failed:', error);
+            });
+        }
+
+        // Apply debounce to the streamText function
+        const debouncedStreamText = debounce(streamText, 1000);
+
+        // Attach event listener with debounced function
+        document.getElementById('text-to-speak').addEventListener('input', debouncedStreamText);
+
+        // Event listeners for control buttons
+        document.getElementById('stopbtn').addEventListener('click', () => {
+            console.log('stop');
+            client.stop();
+        });
+
+        document.getElementById('pausebtn').addEventListener('click', () => {
+            console.log('pause');
+            client.pause();
+        });
+
+        document.getElementById('resumebtn').addEventListener('click', () => {
+            console.log('resume');
+            client.resume();
+        });
+    </script>
+</body>
+
+</html>

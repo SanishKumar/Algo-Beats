@@ -1,0 +1,32 @@
+.video-wrapper {
+	opacity: 0;
+	transition: opacity 0.8s ease-in-out;
+	background: linear-gradient(to top, #111111af, #00000000);
+}
+
+.video-container:hover .video-wrapper,
+.video-container:focus-within .video-wrapper,
+.video-container.paused .video-wrapper {
+	opacity: 1;
+}
+
+.video-timeline {
+	height: 50%;
+	width: 100%;
+}
+
+.video-control-wrapper {
+	width: 100%;
+	height: 50%;
+	display: flex;
+	justify-content: space-between;
+	padding: 0rem 2rem;
+}
+
+.volume-controller {
+	display: none;
+}
+
+.mic-wrapper:hover .volume-controller {
+	display: block;
+}

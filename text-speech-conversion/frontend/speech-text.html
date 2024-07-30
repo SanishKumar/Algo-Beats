@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Streaming Text-to-Speech & Speech-to-Text</title>
+</head>
+
+<body>
+	<button id="sttbtn">Start Speech-to-Text</button>
+	<button id="stp-sttbtn">Stop Speech-to-Text</button>
+	<p>Transcript: <span id="transcript">None</span></p>
+
+	<script type="module">
+		import { TextToSpeechClient, SpeechToTextClient } from './service/converter_service.js';
+
+		const sttClient = new SpeechToTextClient();
+
+		document.getElementById('sttbtn').addEventListener('click', () => {
+			console.log('Start Speech-to-Text');
+			sttClient.startListening((transcript) => {
+				document.getElementById('transcript').textContent = transcript;
+			});
+		});
+
+		document.getElementById('stp-sttbtn').addEventListener('click', () => {
+			console.log('Stop Speech-to-Text');
+			sttClient.stopListening();
+		});
+	</script>
+</body>
+
+</html>
