@@ -11,11 +11,11 @@
 /coverage
 
 # next.js
-/.next/
+/website/algo-beats/.next/
 /out/
 
 # production
-/build
+/website/algo-beats/build
 
 # misc
 .DS_Store
@@ -27,7 +27,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
+/website/algo-beats/.env*.local
 
 # vercel
 .vercel
